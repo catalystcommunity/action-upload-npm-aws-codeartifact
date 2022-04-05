@@ -51,7 +51,7 @@ runs:
         role-duration-seconds: ${{ inputs.role-duration-seconds }}
         role-session-name: ${{ inputs.role-session-name }}
         role-external-id: ${{ inputs.role-external-id }}
-        role-skip-session-tagging: ${{ role-skip-session-tagging }}
+        role-skip-session-tagging: ${{ inputs.role-skip-session-tagging }}
     - name: Publish artifacts using ephermeral npm project
       shell: bash
       run: |
