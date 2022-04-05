@@ -1,6 +1,10 @@
 name: Upload an npm project to aws code artifact
 description: Uploads an npm project to aws code artifact
 inputs:
+  token:
+    description: 'Git token to use'
+    required: false
+    default: ${{ github.token }}
   aws-access-key-id:
     description: aws access key id
     required: true
@@ -52,6 +56,10 @@ runs:
         role-session-name: ${{ inputs.role-session-name }}
         role-external-id: ${{ inputs.role-external-id }}
         role-skip-session-tagging: ${{ inputs.role-skip-session-tagging }}
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        token: ${{ inputs.token }}
     - name: Publish artifacts using ephermeral npm project
       shell: bash
       run: |
