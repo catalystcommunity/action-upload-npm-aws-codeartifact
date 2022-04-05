@@ -24,9 +24,9 @@ inputs:
       credentials
     required: false
   role-duration-seconds:
-    description: "Role duration in seconds (default: 10 minutes)"
+    description: "Role duration in seconds (default: 15 minutes)"
     required: false
-    default: "600"
+    default: "900"
   role-session-name:
     description: 'Role session name (default: GitHubActions)'
     required: false
