@@ -40,20 +40,19 @@ Greet someone
 ### Example usage
 
 ```yaml
-on: [push]
-
+name: Publish to npm code artifact repository
+on:
+  release:
+    types: [created]
 jobs:
-  hello_world_job:
+  publish:
     runs-on: ubuntu-latest
-    name: A job to say hello
     steps:
-      - uses: actions/checkout@v2
-      - id: foo
-        uses: actions/hello-world-composite-action@v1
+      - uses: catalystsquad/action-upload-npm-aws-codeartifact@v1
         with:
-          who-to-greet: "Mona the Octocat"
-      - run: echo random-number ${{ steps.foo.outputs.random-number }}
-        shell: bash
+          aws-access-key-id: ${{ secrets.AUTOMATION_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AUTOMATION_AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: arn:aws:iam::000000000000:role/YourRoleHere
 ```
 
 <!-- end examples -->

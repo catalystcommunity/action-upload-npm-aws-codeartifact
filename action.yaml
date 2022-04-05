@@ -1,22 +1,59 @@
-name: 'Hello World' # taken from https://docs.github.com/en/actions/creating-actions/creating-a-composite-action
-description: 'Greet someone'
+name: Upload an npm project to aws code artifact
+description: Uploads an npm project to aws code artifact
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  aws-access-key-id:
+    description: aws access key id
     required: true
-    default: 'World'
-outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.random-number-generator.outputs.random-id }}
+  aws-secret-access-key:
+    description: aws secret access key
+    required: true
+  aws-region:
+    description: AWS Region, e.g. us-west-2
+    required: false
+    default: us-west-2
+  mask-aws-account-id:
+    description: >-
+      Whether to set the AWS account ID for these credentials as a secret value,
+      so that it is masked in logs. Valid values are 'true' and 'false'.
+      Defaults to true
+    required: false
+  role-to-assume:
+    description: >-
+      Use the provided credentials to assume an IAM role and configure the Actions
+      environment with the assumed role credentials rather than with the provided
+      credentials
+    required: false
+  role-duration-seconds:
+    description: "Role duration in seconds (default: 10 minutes)"
+    required: false
+    default: "600"
+  role-session-name:
+    description: 'Role session name (default: GitHubActions)'
+    required: false
+  role-external-id:
+    description: 'The external ID of the role to assume'
+    required: false
+  role-skip-session-tagging:
+    description: 'Skip session tagging during role assumption'
+    required: false
+    default: true
 runs:
-  using: "composite"
+  using: composite
   steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}.
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-region: ${{ inputs.aws-region }}
+        aws-access-key-id: ${{ inputs.aws-access-key-id }}
+        aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
+        role-to-assume: ${{ inputs.role-to-assume }}
+        mask-aws-account-id: ${{ inputs.mask-aws-account-id }}
+        role-duration-seconds: ${{ inputs.role-duration-seconds }}
+        role-session-name: ${{ inputs.role-session-name }}
+        role-external-id: ${{ inputs.role-external-id }}
+        role-skip-session-tagging: ${{ role-skip-session-tagging }}
+    - name: Publish artifacts using ephermeral npm project
       shell: bash
-    - id: random-number-generator
-      run: echo "::set-output name=random-id::$(echo $RANDOM)"
-      shell: bash
-    - run: ${{ github.action_path }}/goodbye.sh
-      shell: bash
-
+      run: |
+        npm publish
+        
