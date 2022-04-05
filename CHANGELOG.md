@@ -1,3 +1,10 @@
+# 1.0.0 (2022-04-05)
+
+
+### Bug Fixes
+
+* Initial commit ([#1](https://github.com/catalystsquad/action-upload-npm-aws-codeartifact/issues/1)) ([d53035f](https://github.com/catalystsquad/action-upload-npm-aws-codeartifact/commit/d53035f638603148905a3157978ccb9282babc34))
+
 # 1.0.0 (2022-02-28)
 
 
