@@ -15,6 +15,10 @@ Uploads an npm project to aws code artifact
 ```yaml
 - uses: catalystsquad/action-upload-npm-aws-codeartifact@undefined
   with:
+    # Git token to use
+    # Default: ${{ github.token }}
+    token: ""
+
     # aws access key id
     aws-access-key-id: ""
 
@@ -34,8 +38,8 @@ Uploads an npm project to aws code artifact
     # credentials
     role-to-assume: ""
 
-    # Role duration in seconds (default: 10 minutes)
-    # Default: 600
+    # Role duration in seconds (default: 15 minutes)
+    # Default: 900
     role-duration-seconds: ""
 
     # Role session name (default: GitHubActions)
@@ -47,22 +51,41 @@ Uploads an npm project to aws code artifact
     # Skip session tagging during role assumption
     # Default: true
     role-skip-session-tagging: ""
+
+    # `tool` argument for aws codeartifact login command
+    # Default: npm
+    tool: ""
+
+    # AWS code artifact repository to publish to
+    # Default: npm
+    repository: ""
+
+    # AWS code artifact domain to publish to
+    domain: ""
+
+    # AWS code artifact domain owner
+    domain-owner: ""
 ```
 
 <!-- end usage -->
 <!-- start inputs -->
 
-| **Input**                       | **Description**                                                                                                                                                      | **Default** | **Required** |
-| :------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------: | :----------: |
-| **`aws-access-key-id`**         | aws access key id                                                                                                                                                    |             |   **true**   |
-| **`aws-secret-access-key`**     | aws secret access key                                                                                                                                                |             |   **true**   |
-| **`aws-region`**                | AWS Region, e.g. us-west-2                                                                                                                                           | `us-west-2` |  **false**   |
-| **`mask-aws-account-id`**       | Whether to set the AWS account ID for these credentials as a secret value, so that it is masked in logs. Valid values are 'true' and 'false'. Defaults to true       |             |  **false**   |
-| **`role-to-assume`**            | Use the provided credentials to assume an IAM role and configure the Actions environment with the assumed role credentials rather than with the provided credentials |             |  **false**   |
-| **`role-duration-seconds`**     | Role duration in seconds (default: 10 minutes)                                                                                                                       |    `600`    |  **false**   |
-| **`role-session-name`**         | Role session name (default: GitHubActions)                                                                                                                           |             |  **false**   |
-| **`role-external-id`**          | The external ID of the role to assume                                                                                                                                |             |  **false**   |
-| **`role-skip-session-tagging`** | Skip session tagging during role assumption                                                                                                                          |   `true`    |  **false**   |
+| **Input**                       | **Description**                                                                                                                                                      |      **Default**      | **Required** |
+| :------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------: | :----------: |
+| **`token`**                     | Git token to use                                                                                                                                                     | `${{ github.token }}` |  **false**   |
+| **`aws-access-key-id`**         | aws access key id                                                                                                                                                    |                       |   **true**   |
+| **`aws-secret-access-key`**     | aws secret access key                                                                                                                                                |                       |   **true**   |
+| **`aws-region`**                | AWS Region, e.g. us-west-2                                                                                                                                           |      `us-west-2`      |  **false**   |
+| **`mask-aws-account-id`**       | Whether to set the AWS account ID for these credentials as a secret value, so that it is masked in logs. Valid values are 'true' and 'false'. Defaults to true       |                       |  **false**   |
+| **`role-to-assume`**            | Use the provided credentials to assume an IAM role and configure the Actions environment with the assumed role credentials rather than with the provided credentials |                       |  **false**   |
+| **`role-duration-seconds`**     | Role duration in seconds (default: 15 minutes)                                                                                                                       |         `900`         |  **false**   |
+| **`role-session-name`**         | Role session name (default: GitHubActions)                                                                                                                           |                       |  **false**   |
+| **`role-external-id`**          | The external ID of the role to assume                                                                                                                                |                       |  **false**   |
+| **`role-skip-session-tagging`** | Skip session tagging during role assumption                                                                                                                          |        `true`         |  **false**   |
+| **`tool`**                      | `tool` argument for aws codeartifact login command                                                                                                                   |         `npm`         |  **false**   |
+| **`repository`**                | AWS code artifact repository to publish to                                                                                                                           |         `npm`         |  **false**   |
+| **`domain`**                    | AWS code artifact domain to publish to                                                                                                                               |                       |   **true**   |
+| **`domain-owner`**              | AWS code artifact domain owner                                                                                                                                       |                       |   **true**   |
 
 <!-- end inputs -->
 <!-- start outputs -->
