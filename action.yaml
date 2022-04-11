@@ -1,6 +1,10 @@
 name: Upload an npm project to aws code artifact
 description: Uploads an npm project to aws code artifact
 inputs:
+  token:
+    description: 'Git token to use'
+    required: false
+    default: ${{ github.token }}
   aws-access-key-id:
     description: aws access key id
     required: true
@@ -24,9 +28,9 @@ inputs:
       credentials
     required: false
   role-duration-seconds:
-    description: "Role duration in seconds (default: 10 minutes)"
+    description: "Role duration in seconds (default: 15 minutes)"
     required: false
-    default: "600"
+    default: "900"
   role-session-name:
     description: 'Role session name (default: GitHubActions)'
     required: false
@@ -37,6 +41,20 @@ inputs:
     description: 'Skip session tagging during role assumption'
     required: false
     default: true
+  tool:
+    description: '`tool` argument for aws codeartifact login command'
+    default: npm
+    required: false
+  repository:
+    description: AWS code artifact repository to publish to
+    required: false
+    default: npm
+  domain:
+    description: AWS code artifact domain to publish to
+    required: true
+  domain-owner:
+    description: AWS code artifact domain owner
+    required: true
 runs:
   using: composite
   steps:
@@ -51,9 +69,13 @@ runs:
         role-duration-seconds: ${{ inputs.role-duration-seconds }}
         role-session-name: ${{ inputs.role-session-name }}
         role-external-id: ${{ inputs.role-external-id }}
-        role-skip-session-tagging: ${{ role-skip-session-tagging }}
-    - name: Publish artifacts using ephermeral npm project
+        role-skip-session-tagging: ${{ inputs.role-skip-session-tagging }}
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        token: ${{ inputs.token }}
+    - name: Publish
       shell: bash
       run: |
+        aws codeartifact login --tool ${{ inputs.tool }} --repository ${{ inputs.repository}} --domain ${{ inputs.domain }} --domain-owner ${{ inputs.domain-owner }}
         npm publish
-        
