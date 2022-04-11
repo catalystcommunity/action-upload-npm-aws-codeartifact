@@ -41,6 +41,20 @@ inputs:
     description: 'Skip session tagging during role assumption'
     required: false
     default: true
+  tool:
+    description: '`tool` argument for aws codeartifact login command'
+    default: npm
+    required: false
+  repository:
+    description: AWS code artifact repository to publish to
+    required: false
+    default: npm
+  domain:
+    description: AWS code artifact domain to publish to
+    required: true
+  domain-owner:
+    description: AWS code artifact domain owner
+    required: true
 runs:
   using: composite
   steps:
@@ -60,8 +74,8 @@ runs:
       uses: actions/checkout@v2
       with:
         token: ${{ inputs.token }}
-    - name: Publish artifacts using ephermeral npm project
+    - name: Publish
       shell: bash
       run: |
+        aws codeartifact login --tool ${{ inputs.tool }} --repository ${{ inputs.repository}} --domain ${{ inputs.domain }} --domain-owner ${{ inputs.domain-owner }}
         npm publish
-        
