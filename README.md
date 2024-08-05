@@ -13,7 +13,7 @@ Uploads an npm project to aws code artifact
 <!-- start usage -->
 
 ```yaml
-- uses: catalystsquad/action-upload-npm-aws-codeartifact@undefined
+- uses: catalystcommunity/action-upload-npm-aws-codeartifact@undefined
   with:
     # Git token to use
     # Default: ${{ github.token }}
@@ -108,7 +108,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: catalystsquad/action-upload-npm-aws-codeartifact@v1
+      - uses: catalystcommunity/action-upload-npm-aws-codeartifact@v1
         with:
           aws-access-key-id: ${{ secrets.AUTOMATION_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AUTOMATION_AWS_SECRET_ACCESS_KEY }}
